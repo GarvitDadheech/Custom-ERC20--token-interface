@@ -69,9 +69,9 @@ contract GDCOIN is IERC20{
         return allowed[owner][spender];
     }
 
-    function approve(address spender, uint256 amount) external freezeStatus() emergencyStatus()
-        returns (bool){
-        require(amount>0,"Amount must be greater than zero");require(balances[msg.sender]>=amount,"You don't have enough balance");
+    function approve(address spender, uint256 amount) external freezeStatus() emergencyStatus() returns (bool){
+        require(amount>0,"Amount must be greater than zero");
+        require(balances[msg.sender]>=amount,"You don't have enough balance");
         allowed[msg.sender][spender]=amount;
         emit Approval(msg.sender,spender,amount);
         return true;
@@ -87,5 +87,16 @@ contract GDCOIN is IERC20{
         balances[recipient]+=amount;
         return true;
     }
+
+    function burning(uint value) public isFounder() {
+        require(value<=totalSupply, "Not enough token to burn");
+        balances[founder]-=value;
+        totalSupply-=totalSupply;
+    }
+
+    function freezeAccount(address freezingAddress) public isFounder() {
+        isFreeze[freezingAddress]=true;
+    }
+
 
 }
