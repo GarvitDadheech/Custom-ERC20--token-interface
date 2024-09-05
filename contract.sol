@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 interface IERC20 {
-    
+
     function totalSupply() external view returns (uint256);
 
     function balanceOf(address account) external view returns (uint256);
@@ -19,4 +19,22 @@ interface IERC20 {
     event Transfer(address indexed from, address indexed to, uint256 value);
 
     event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+
+contract GDCOIN is IERC20{
+    string public name="GDCOIN";
+    string public symbol="GDC";
+    uint public decimal=0;
+    address public founder;
+    uint public totalSupply;
+    mapping(address=>mapping(address=>uint)) allowed;
+    mapping(address=>uint) public balances;
+    mapping(address => bool) public isFreeze;
+    bool stopAllFunctions;
+    constructor(){
+        founder=msg.sender;
+        totalSupply=1000;
+        balances[founder]=totalSupply;
+    }
+    
 }
