@@ -31,10 +31,24 @@ contract GDCOIN is IERC20{
     mapping(address=>uint) public balances;
     mapping(address => bool) public isFreeze;
     bool stopAllFunctions;
+
     constructor(){
         founder=msg.sender;
         totalSupply=1000;
         balances[founder]=totalSupply;
     }
-    
+
+    modifier freezeStatus(){
+        require(isFreeze[msg.sender]==false,"Your account is freezed");
+        _;
+    }
+    modifier emergencyStatus(){
+        require(stopAllFunctions==false,"Emergency declared");
+        _;
+    }
+    modifier isFounder() {
+        require(msg.sender==founder, "You are not the founder");
+        _;
+    }
+
 }
