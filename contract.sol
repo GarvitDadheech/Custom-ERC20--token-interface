@@ -65,4 +65,16 @@ contract GDCOIN is IERC20{
         return true;
     }
 
+    function allowance(address owner, address spender) external view returns (uint256){
+        return allowed[owner][spender];
+    }
+
+    function approve(address spender, uint256 amount) external freezeStatus() emergencyStatus()
+        returns (bool){
+        require(amount>0,"Amount must be greater than zero");require(balances[msg.sender]>=amount,"You don't have enough balance");
+        allowed[msg.sender][spender]=amount;
+        emit Approval(msg.sender,spender,amount);
+        return true;
+    }
+
 }
