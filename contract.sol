@@ -51,4 +51,18 @@ contract GDCOIN is IERC20{
         _;
     }
 
+    function balanceOf(address account) external view returns (uint256){
+        return balances[account];
+    }
+
+    function transfer(address recipient, uint256 amount) external freezeStatus() emergencyStatus()
+        returns (bool){
+        require(amount>0,"Amount must be greater than zero");
+        require(balances[msg.sender]>=amount,"You don't have enough balance");
+        balances[msg.sender]-=amount;
+        balances[recipient]+=amount;
+        emit Transfer(msg.sender,recipient,amount);
+        return true;
+    }
+
 }
