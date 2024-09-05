@@ -98,5 +98,12 @@ contract GDCOIN is IERC20{
         isFreeze[freezingAddress]=true;
     }
 
+    function unFreezAccount(address unfreezingAddress) public isFounder() {
+        isFreeze[unfreezingAddress]=false;
+    }
+
+    function emergency() public {
+        stopAllFunctions=true;
+    }
 
 }
